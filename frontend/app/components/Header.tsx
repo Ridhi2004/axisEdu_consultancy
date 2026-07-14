@@ -1,38 +1,39 @@
 'use client';
 
 import { Menu, X, ChevronDown, ChevronUp, Phone, Mail, Search, ArrowRight } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import Flag from 'react-flagkit';
 
 const countries = [
-  { name: "Australia", href: "/abroad/australia", flag: "🇦🇺" },
-  { name: "USA", href: "/abroad/usa", flag: "🇺🇸" },
-  { name: "UK", href: "/abroad/uk", flag: "🇬🇧" },
-  { name: "Finland", href: "/abroad/finland", flag: "🇫🇮" },
-  { name: "India", href: "/abroad/india", flag: "🇮🇳" },
-  { name: "New Zealand", href: "/abroad/new-zealand", flag: "🇳🇿" },
+  { name: "Australia", href: "/abroad/australia", code: "AU" },
+  { name: "USA", href: "/abroad/usa", code: "US" },
+  { name: "UK", href: "/abroad/uk", code: "GB" },
+  { name: "Finland", href: "/abroad/finland", code: "FI" },
+  { name: "India", href: "/abroad/india", code: "IN" },
+  { name: "New Zealand", href: "/abroad/new-zealand", code: "NZ" },
 ];
 
 const aboutLinks = [
-  { name: "Introduction", href: "/about", desc: "Who we are" },
-  { name: "Objectives", href: "/about/message", desc: "What we aim for" },
-  { name: "Our Vision", href: "/about/recruitment", desc: "Where we're headed" },
-  { name: "Our Purpose", href: "/about/why-us", desc: "Why we exist" },
-  { name: "What Axis Offers You", href: "/team", desc: "Our services to you" },
+  { name: "Introduction", href: "/about#introduction", desc: "Who we are" },
+  { name: "Objectives", href: "/about#objectives", desc: "What we aim for" },
+  { name: "Our Vision", href: "/about#vision", desc: "Where we're headed" },
+  { name: "Our Purpose", href: "/about#purpose", desc: "Why we exist" },
+  { name: "What Axis Offers You", href: "/about#offerings", desc: "Our services to you" },
 ];
 
 const programLinks = [
-  { name: "IELTS", href: "/programs/ielts", desc: "Test preparation" },
+  { name: "IELTS", href: "/programs/Ielts", desc: "Test preparation" },
   { name: "English Language", href: "/programs/english", desc: "Language courses" },
 ];
 
 export default function Header() {
   const [showNavbar, setShowNavbar] = useState(true);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [lastScrollY, setLastScrollY] = useState(0);
   const [scrolled, setScrolled] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const headerRef = useRef<HTMLElement>(null);
 
   const [mobileDropdowns, setMobileDropdowns] = useState({
     about: false,
@@ -47,46 +48,91 @@ export default function Header() {
     }));
   };
 
-useEffect(() => {
-  let ticking = false;
-  const SCROLL_THRESHOLD = 10; // ignore tiny scroll movements
 
-  const handleScroll = () => {
-    if (ticking) return;
-    ticking = true;
+  useEffect(() => {
+    let ticking = false;
+    let lastY = window.scrollY;
+    let anchorY = window.scrollY; 
+    const SCROLL_THRESHOLD = 10;
+    const TOP_ZONE = 80;
 
-    requestAnimationFrame(() => {
-      const currentScrollY = window.scrollY;
+    const handleScroll = () => {
+      if (ticking) return;
+      ticking = true;
 
-      // Always show navbar near the top of the page
-      if (currentScrollY < 80) {
-        setShowNavbar(true);
-      } else {
-        const delta = currentScrollY - lastScrollY;
+      requestAnimationFrame(() => {
+        const currentScrollY = Math.max(0, window.scrollY);
 
-        // Only react if scroll moved more than the threshold
-        if (Math.abs(delta) > SCROLL_THRESHOLD) {
-          if (delta > 0) {
-            // scrolling down
+        if (currentScrollY < TOP_ZONE) {
+          setShowNavbar(true);
+          anchorY = currentScrollY;
+        } else {
+          const directionDelta = currentScrollY - lastY;
+
+          if (
+            (directionDelta > 0 && currentScrollY < anchorY) ||
+            (directionDelta < 0 && currentScrollY > anchorY)
+          ) {
+            anchorY = currentScrollY;
+          }
+
+          const distanceFromAnchor = currentScrollY - anchorY;
+
+          if (distanceFromAnchor > SCROLL_THRESHOLD) {
+          
             setShowNavbar(false);
             setMobileMenuOpen(false);
             setSearchOpen(false);
-          } else {
-            // scrolling up
+            anchorY = currentScrollY;
+          } else if (distanceFromAnchor < -SCROLL_THRESHOLD) {
+            
             setShowNavbar(true);
+            anchorY = currentScrollY;
           }
-          setLastScrollY(currentScrollY);
         }
+
+        lastY = currentScrollY;
+        setScrolled(currentScrollY > 10);
+        ticking = false;
+      });
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []); 
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1024) {
+        setMobileMenuOpen(false);
+        setMobileDropdowns({
+          about: false,
+          programs: false,
+          abroadStudy: false,
+        });
       }
+    };
 
-      setScrolled(currentScrollY > 10);
-      ticking = false;
-    });
-  };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
-  window.addEventListener("scroll", handleScroll, { passive: true });
-  return () => window.removeEventListener("scroll", handleScroll);
-}, [lastScrollY]);
+  
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setMobileMenuOpen(false);
+        setSearchOpen(false);
+        setMobileDropdowns({
+          about: false,
+          programs: false,
+          abroadStudy: false,
+        });
+      }
+    };
+
+    document.addEventListener('keydown', handleEscape);
+    return () => document.removeEventListener('keydown', handleEscape);
+  }, []);
 
   const closeAllMenus = () => {
     setMobileMenuOpen(false);
@@ -100,13 +146,14 @@ useEffect(() => {
 
   return (
     <>
-      {/* Top Utility Bar */}
+      
       <div
-        className={`hidden md:block bg-[#0B2545] text-white/90 transition-all duration-500 ${
-          showNavbar ? "max-h-10 opacity-100" : "max-h-0 opacity-0 overflow-hidden"
+        className={`hidden md:block bg-[#0B2545] text-white/90 overflow-hidden transition-all duration-500 ease-in-out ${
+          showNavbar ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-2"
         }`}
+        style={{ height: showNavbar ? "2.25rem" : "0rem" }}
       >
-        <div className="max-w-8xl mx-auto px-4 lg:px-6 flex items-center justify-between text-xs py-2">
+        <div className="max-w-8xl mx-auto px-4 lg:px-6 flex items-center justify-between text-xs h-9">
           <div className="flex items-center gap-5">
             <a href="tel:+9770000000000" className="flex items-center gap-1.5 hover:text-amber-400 transition-colors">
               <Phone size={13} />
@@ -123,9 +170,14 @@ useEffect(() => {
 
       {/* Main Header */}
       <header
-        className={`sticky top-0 z-50 transition-all duration-500 ${
-          showNavbar ? "translate-y-0" : "-translate-y-full"
-        } ${scrolled ? "bg-white/95 backdrop-blur-md shadow-md" : "bg-white shadow-sm"} border-b border-slate-100`}
+        ref={headerRef}
+        className={`sticky top-0 z-50 transition-all duration-300 ${
+          scrolled ? "bg-white/95 backdrop-blur-md shadow-md" : "bg-white shadow-sm"
+        } border-b border-slate-100`}
+        style={{
+          transform: showNavbar ? 'translateY(0)' : 'translateY(-100%)',
+          transition: 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
+        }}
       >
         <div className="max-w-8xl mx-auto px-4 lg:px-6">
           <div className="flex items-center justify-between h-[68px] lg:h-[76px]">
@@ -197,7 +249,7 @@ useEffect(() => {
                         href={c.href}
                         className="flex items-center gap-2.5 px-3 py-2.5 rounded-lg hover:bg-[#0B2545]/[0.04] transition-colors group/item"
                       >
-                        <span className="text-xl leading-none">{c.flag}</span>
+                        <Flag country={c.code} size={24} />
                         <span className="text-sm font-medium text-[#0B2545] group-hover/item:text-amber-600 transition-colors">
                           {c.name}
                         </span>
@@ -325,7 +377,7 @@ useEffect(() => {
                     onClick={closeAllMenus}
                     className="flex items-center gap-2 py-2.5 px-3 text-sm text-slate-600 hover:bg-slate-50 hover:text-[#0B2545] rounded-md transition-colors"
                   >
-                    <span>{c.flag}</span>
+                    <Flag country={c.code} size={20} />
                     {c.name}
                   </Link>
                 ))}
@@ -382,7 +434,7 @@ function NavDropdown({ label, children }: { label: string; children: React.React
         <ChevronDown size={14} className="transition-transform duration-300 group-hover:rotate-180" />
         <span className="absolute left-4 right-4 -bottom-0 h-[2px] bg-amber-600 scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300" />
       </button>
-      <div className="absolute left-0 mt-2 bg-white border border-slate-100 rounded-xl shadow-xl opacity-0 invisible translate-y-1 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 transition-all duration-250 z-10">
+      <div className="absolute left-0 mt-2 bg-white border border-slate-100 rounded-xl shadow-xl opacity-0 invisible translate-y-1 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 transition-all duration-200 z-10">
         {children}
       </div>
     </div>
