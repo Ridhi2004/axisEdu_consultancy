@@ -9,5 +9,6 @@ router.register(r'latestpost',LatestPostViewSet,basename='latestpost')
 router.register(r'testonomial',TestonomialaViewSet,basename='testonomial')
 
 urlpatterns = [
+path("search/", GlobalSearchAPIView.as_view(), name="global-search"),
 path('',include(router.urls))
 ]
