@@ -24,7 +24,7 @@ const aboutLinks = [
 ];
 
 const programLinks = [
-  { name: "IELTS", href: "/programs/ielts", desc: "Test preparation" },
+  { name: "IELTS", href: "/programs/Ielts", desc: "Test preparation" },
   { name: "English Language", href: "/programs/english", desc: "Language courses" },
 ];
 

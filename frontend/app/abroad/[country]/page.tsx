@@ -85,7 +85,7 @@ const countryData: Record<string, CountryData> = {
   australia: {
     name: "Australia",
     flagCode: "AU",
-    title: "Study in Australiaaa",
+    title: "Study in Australia",
     subtitle: "World-class education in a vibrant multicultural environment",
     image: "/images/countries/australia.jpg",
     overview:
