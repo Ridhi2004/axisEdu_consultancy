@@ -47,25 +47,46 @@ export default function Header() {
     }));
   };
 
-  useEffect(() => {
-    const handleScroll = () => {
+useEffect(() => {
+  let ticking = false;
+  const SCROLL_THRESHOLD = 10; // ignore tiny scroll movements
+
+  const handleScroll = () => {
+    if (ticking) return;
+    ticking = true;
+
+    requestAnimationFrame(() => {
       const currentScrollY = window.scrollY;
 
-      if (currentScrollY > lastScrollY && currentScrollY > 50) {
-        setShowNavbar(false);
-        setMobileMenuOpen(false);
-        setSearchOpen(false);
-      } else {
+      // Always show navbar near the top of the page
+      if (currentScrollY < 80) {
         setShowNavbar(true);
+      } else {
+        const delta = currentScrollY - lastScrollY;
+
+        // Only react if scroll moved more than the threshold
+        if (Math.abs(delta) > SCROLL_THRESHOLD) {
+          if (delta > 0) {
+            // scrolling down
+            setShowNavbar(false);
+            setMobileMenuOpen(false);
+            setSearchOpen(false);
+          } else {
+            // scrolling up
+            setShowNavbar(true);
+          }
+          setLastScrollY(currentScrollY);
+        }
       }
 
       setScrolled(currentScrollY > 10);
-      setLastScrollY(currentScrollY);
-    };
-    window.addEventListener("scroll", handleScroll);
+      ticking = false;
+    });
+  };
 
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [lastScrollY]);
+  window.addEventListener("scroll", handleScroll, { passive: true });
+  return () => window.removeEventListener("scroll", handleScroll);
+}, [lastScrollY]);
 
   const closeAllMenus = () => {
     setMobileMenuOpen(false);
