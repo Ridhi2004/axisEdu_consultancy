@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Menu, X, ChevronDown, ChevronUp, Phone, Mail, Search, ArrowRight } from "lucide-react";
@@ -16,11 +17,11 @@ const countries = [
 ];
 
 const aboutLinks = [
-  { name: "Introduction", href: "/about", desc: "Who we are" },
-  { name: "Objectives", href: "/about/message", desc: "What we aim for" },
-  { name: "Our Vision", href: "/about/recruitment", desc: "Where we're headed" },
-  { name: "Our Purpose", href: "/about/why-us", desc: "Why we exist" },
-  { name: "What Axis Offers You", href: "/team", desc: "Our services to you" },
+  { name: "Introduction", href: "/about#introduction", desc: "Who we are" },
+  { name: "Objectives", href: "/about#objectives", desc: "What we aim for" },
+  { name: "Our Vision", href: "/about#vision", desc: "Where we're headed" },
+  { name: "Our Purpose", href: "/about#purpose", desc: "Why we exist" },
+  { name: "What Axis Offers You", href: "/about#offerings", desc: "Our services to you" },
 ];
 
 const programLinks = [
@@ -31,7 +32,6 @@ const programLinks = [
 export default function Header() {
   const [showNavbar, setShowNavbar] = useState(true);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [lastScrollY, setLastScrollY] = useState(0);
   const [scrolled, setScrolled] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
@@ -49,38 +49,50 @@ export default function Header() {
     }));
   };
 
+
   useEffect(() => {
     let ticking = false;
+    let lastY = window.scrollY;
+    let anchorY = window.scrollY; 
     const SCROLL_THRESHOLD = 10;
+    const TOP_ZONE = 80;
 
     const handleScroll = () => {
       if (ticking) return;
       ticking = true;
 
       requestAnimationFrame(() => {
-        const currentScrollY = window.scrollY;
+        const currentScrollY = Math.max(0, window.scrollY);
 
-        // Always show navbar near the top of the page
-        if (currentScrollY < 80) {
+        if (currentScrollY < TOP_ZONE) {
           setShowNavbar(true);
+          anchorY = currentScrollY;
         } else {
-          const delta = currentScrollY - lastScrollY;
+          const directionDelta = currentScrollY - lastY;
 
-          // Only react if scroll moved more than the threshold
-          if (Math.abs(delta) > SCROLL_THRESHOLD) {
-            if (delta > 0) {
-              // scrolling down
-              setShowNavbar(false);
-              setMobileMenuOpen(false);
-              setSearchOpen(false);
-            } else {
-              // scrolling up
-              setShowNavbar(true);
-            }
-            setLastScrollY(currentScrollY);
+          if (
+            (directionDelta > 0 && currentScrollY < anchorY) ||
+            (directionDelta < 0 && currentScrollY > anchorY)
+          ) {
+            anchorY = currentScrollY;
+          }
+
+          const distanceFromAnchor = currentScrollY - anchorY;
+
+          if (distanceFromAnchor > SCROLL_THRESHOLD) {
+          
+            setShowNavbar(false);
+            setMobileMenuOpen(false);
+            setSearchOpen(false);
+            anchorY = currentScrollY;
+          } else if (distanceFromAnchor < -SCROLL_THRESHOLD) {
+            
+            setShowNavbar(true);
+            anchorY = currentScrollY;
           }
         }
 
+        lastY = currentScrollY;
         setScrolled(currentScrollY > 10);
         ticking = false;
       });
@@ -88,9 +100,7 @@ export default function Header() {
 
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [lastScrollY]);
-
-  // Close mobile menu on resize to desktop
+  }, []); 
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 1024) {
@@ -107,7 +117,7 @@ export default function Header() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Close mobile menu on escape key
+  
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
@@ -137,13 +147,14 @@ export default function Header() {
 
   return (
     <>
-      {/* Top Utility Bar */}
+      
       <div
-        className={`hidden md:block bg-[#0B2545] text-white/90 transition-all duration-500 ${
-          showNavbar ? "max-h-10 opacity-100 py-2" : "max-h-0 opacity-0 py-0 overflow-hidden"
+        className={`hidden md:block bg-[#0B2545] text-white/90 overflow-hidden transition-all duration-500 ease-in-out ${
+          showNavbar ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-2"
         }`}
+        style={{ height: showNavbar ? "2.25rem" : "0rem" }}
       >
-        <div className="max-w-8xl mx-auto px-4 lg:px-6 flex items-center justify-between text-xs">
+        <div className="max-w-8xl mx-auto px-4 lg:px-6 flex items-center justify-between text-xs h-9">
           <div className="flex items-center gap-5">
             <a href="tel:+9770000000000" className="flex items-center gap-1.5 hover:text-amber-400 transition-colors">
               <Phone size={13} />

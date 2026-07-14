@@ -51,10 +51,7 @@ export default function IeltsPage() {
           <Link href="/" className="hover:text-amber-600 transition-colors">
             Home
           </Link>
-          <ChevronRight size={14} />
-          <Link href="/test-prep" className="hover:text-amber-600 transition-colors">
-            Test Preparation
-          </Link>
+        
           <ChevronRight size={14} />
           <span className="text-amber-600 font-medium">IELTS</span>
         </nav>
