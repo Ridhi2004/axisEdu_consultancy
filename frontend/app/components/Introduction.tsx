@@ -11,7 +11,7 @@ export default function Introduction() {
       <div className="pointer-events-none absolute -top-24 -left-24 w-80 h-80 rounded-full bg-amber-50 blur-3xl animate-pulse" />
       <div className="pointer-events-none absolute -bottom-16 right-0 w-64 h-64 rounded-full bg-[#0B2545]/[0.04] blur-3xl animate-pulse" />
 
-      <div className="relative max-w-8xl mx-auto px-4 lg:px-6">
+      <div className="relative max-w-7xl mx-auto px-4 lg:px-6">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* Left: Image */}
           <div className="relative order-2 lg:order-1 group">
@@ -65,7 +65,7 @@ export default function Introduction() {
             </h2>
 
             <div className="mt-5 pl-5 border-l-4 border-amber-500/40 space-y-4">
-              <p className="text-slate-600 text-base leading-relaxed transition-all duration-500 hover:translate-x-2">
+              <p className="text-slate-600 text-base leading-relaxed transition-all duration-500 hover:translate-x-2 ">
                 Axis International Education Pvt. Ltd. is an established educational
                 counseling center in Kathmandu. It was established with genuine motive
                 to assist the interested and aspiring students for quality education.

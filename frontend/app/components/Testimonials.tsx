@@ -38,7 +38,7 @@ export default function TestimonialsAndDirector() {
 
   return (
     <section className="bg-slate-50 py-6 lg:py-14">
-      <div className="max-w-8xl mx-auto px-4 lg:px-6">
+      <div className="max-w-7xl mx-auto px-4 lg:px-6">
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-12 items-stretch">
           {/* Left: Testimonial spotlight card */}
           <div className="flex flex-col">

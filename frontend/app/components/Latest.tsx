@@ -39,7 +39,7 @@ const FACEBOOK_PAGE_URL = "https://www.facebook.com/axis.edu.np/";
 export default function LatestPostsAndFacebook() {
   return (
     <section className="bg-white py-6 lg:py-14">
-      <div className="max-w-8xl mx-auto px-4 lg:px-6">
+      <div className="max-w-7xl mx-auto px-4 lg:px-6">
         <div className="text-center max-w-2xl mx-auto mb-14">
           <span className="inline-flex items-center gap-2 text-amber-600 text-xs font-semibold uppercase tracking-wider bg-amber-50 px-3.5 py-1.5 rounded-full">
             <Rss size={14} />

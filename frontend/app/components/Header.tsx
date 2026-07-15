@@ -29,12 +29,15 @@ const programLinks = [
   { name: "English Language", href: "/programs/english", desc: "Language courses" },
 ];
 
+const SCROLL_DELTA_THRESHOLD = 8;
+
+const ALWAYS_SHOW_BELOW = 80;
+
 export default function Header() {
   const [showNavbar, setShowNavbar] = useState(true);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
-  const headerRef = useRef<HTMLElement>(null);
 
   const [mobileDropdowns, setMobileDropdowns] = useState({
     about: false,
@@ -49,58 +52,48 @@ export default function Header() {
     }));
   };
 
-
+  
   useEffect(() => {
-    let ticking = false;
     let lastY = window.scrollY;
     let anchorY = window.scrollY; 
-    const SCROLL_THRESHOLD = 10;
-    const TOP_ZONE = 80;
+    let ticking = false;
 
-    const handleScroll = () => {
-      if (ticking) return;
-      ticking = true;
+    const update = () => {
+      ticking = false;
+      const currentY = window.scrollY;
+      const delta = currentY - anchorY;
 
-      requestAnimationFrame(() => {
-        const currentScrollY = Math.max(0, window.scrollY);
+      setScrolled(currentY > 10);
 
-        if (currentScrollY < TOP_ZONE) {
-          setShowNavbar(true);
-          anchorY = currentScrollY;
-        } else {
-          const directionDelta = currentScrollY - lastY;
+      if (currentY < ALWAYS_SHOW_BELOW) {
+        setShowNavbar(true);
+        anchorY = currentY;
+      } else if (delta > SCROLL_DELTA_THRESHOLD) {
+        // scrolled down enough to react
+        setShowNavbar(false);
+        setMobileMenuOpen(false);
+        setSearchOpen(false);
+        anchorY = currentY;
+      } else if (delta < -SCROLL_DELTA_THRESHOLD) {
+        // scrolled up enough to react
+        setShowNavbar(true);
+        anchorY = currentY;
+      }
 
-          if (
-            (directionDelta > 0 && currentScrollY < anchorY) ||
-            (directionDelta < 0 && currentScrollY > anchorY)
-          ) {
-            anchorY = currentScrollY;
-          }
-
-          const distanceFromAnchor = currentScrollY - anchorY;
-
-          if (distanceFromAnchor > SCROLL_THRESHOLD) {
-          
-            setShowNavbar(false);
-            setMobileMenuOpen(false);
-            setSearchOpen(false);
-            anchorY = currentScrollY;
-          } else if (distanceFromAnchor < -SCROLL_THRESHOLD) {
-            
-            setShowNavbar(true);
-            anchorY = currentScrollY;
-          }
-        }
-
-        lastY = currentScrollY;
-        setScrolled(currentScrollY > 10);
-        ticking = false;
-      });
+      lastY = currentY;
     };
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []); 
+    const onScroll = () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(update);
+      }
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 1024) {
@@ -117,7 +110,6 @@ export default function Header() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
@@ -146,14 +138,16 @@ export default function Header() {
   };
 
   return (
-    <>
-      
-      <div
-        className={`hidden md:block bg-[#0B2545] text-white/90 overflow-hidden transition-all duration-500 ease-in-out ${
-          showNavbar ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-2"
-        }`}
-        style={{ height: showNavbar ? "2.25rem" : "0rem" }}
-      >
+   
+    <div
+      className="sticky top-0 z-50 will-change-transform"
+      style={{
+        transform: showNavbar ? 'translateY(0)' : 'translateY(-100%)',
+        transition: 'transform 300ms cubic-bezier(0.4, 0, 0.2, 1)',
+      }}
+    >
+      {/* Top Utility Bar */}
+      <div className="hidden md:block bg-[#0B2545] text-white/90">
         <div className="max-w-8xl mx-auto px-4 lg:px-6 flex items-center justify-between text-xs h-9">
           <div className="flex items-center gap-5">
             <a href="tel:+9770000000000" className="flex items-center gap-1.5 hover:text-amber-400 transition-colors">
@@ -171,14 +165,9 @@ export default function Header() {
 
       {/* Main Header */}
       <header
-        ref={headerRef}
-        className={`sticky top-0 z-50 transition-all duration-300 ${
+        className={`transition-colors duration-300 ${
           scrolled ? "bg-white/95 backdrop-blur-md shadow-md" : "bg-white shadow-sm"
         } border-b border-slate-100`}
-        style={{
-          transform: showNavbar ? 'translateY(0)' : 'translateY(-100%)',
-          transition: 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
-        }}
       >
         <div className="max-w-8xl mx-auto px-4 lg:px-6">
           <div className="flex items-center justify-between h-[68px] lg:h-[76px]">
@@ -189,6 +178,7 @@ export default function Header() {
                   src="/images/logooaxis.png"
                   alt="AXIS International Education logo"
                   fill
+                  sizes="(max-width: 640px) 42px, (max-width: 1024px) 50px, 58px"
                   className="object-contain"
                   priority
                 />
@@ -409,7 +399,7 @@ export default function Header() {
           </div>
         )}
       </header>
-    </>
+    </div>
   );
 }
 

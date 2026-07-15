@@ -82,7 +82,7 @@ export default function Hero() {
                 whileTap={{ scale: 0.95 }}
               >
                 <Link
-                  href="/register"
+                  href="/registration"
                   className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-amber-600 hover:bg-amber-700 text-white font-semibold text-sm px-7 py-3.5 rounded-full transition-all duration-300 shadow-lg shadow-amber-900/20 hover:shadow-xl active:scale-[0.98]"
                 >
                   Get Registered Now

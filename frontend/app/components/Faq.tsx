@@ -118,7 +118,7 @@ export default function FAQ() {
       {/* thin accent line */}
       <div className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-px h-24 bg-gradient-to-b from-amber-300/60 to-transparent" />
 
-      <div className="relative max-w-8xl mx-auto px-4 lg:px-6">
+      <div className="relative max-w-7xl mx-auto px-4 lg:px-6">
         <div className="text-center max-w-2xl mx-auto mb-14">
           <span className="inline-flex items-center gap-2 text-amber-600 text-xs font-semibold uppercase tracking-wider bg-amber-50 px-3.5 py-1.5 rounded-full">
             <HelpCircle size={14} />

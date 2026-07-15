@@ -1,19 +1,23 @@
+
 'use client';
 
 import Image from "next/image";
 import { Handshake } from "lucide-react";
 
-// Replace with your actual affiliate logos — add as many or few as you have
+
 const affiliates = [
-  { name: "Partner 1", src: "/images/affiliates/affiliate-1.png" },
-  { name: "Partner 2", src: "/images/affiliates/affiliate-2.png" },
-  { name: "Partner 3", src: "/images/affiliates/affiliate-3.png" },
-  { name: "Partner 4", src: "/images/affiliates/affiliate-4.png" },
-  { name: "Partner 5", src: "/images/affiliates/affiliate-5.png" },
+  { name: "Partner 1", src: "/images/affiliates/603.jpg" },
+  { name: "Partner 2", src: "/images/affiliates/604.png" },
+  { name: "Partner 3", src: "/images/affiliates/605.jpg" },
+  { name: "Partner 4", src: "/images/affiliates/608.jpg" },
+  { name: "Partner 5", src: "/images/affiliates/609.jpg" },
+   { name: "Partner 6", src: "/images/affiliates/610.jpg" },
+   { name: "Partner 7", src: "/images/affiliates/613.jpg" },
+     { name: "Partner 8", src: "/images/affiliates/614.png" }
 ];
 
 export default function Affiliates() {
-  // duplicate the list so the loop feels seamless
+
   const looped = [...affiliates, ...affiliates];
 
   return (
@@ -33,9 +37,8 @@ export default function Affiliates() {
         </div>
       </div>
 
-      {/* Full-width horizontal marquee */}
       <div className="relative">
-        {/* fade masks left & right */}
+  
         <div className="pointer-events-none absolute top-0 left-0 bottom-0 w-16 lg:w-32 bg-gradient-to-r from-[#0B2545] to-transparent z-10" />
         <div className="pointer-events-none absolute top-0 right-0 bottom-0 w-16 lg:w-32 bg-gradient-to-l from-[#0B2545] to-transparent z-10" />
 
@@ -43,7 +46,7 @@ export default function Affiliates() {
           {looped.map((logo, i) => (
             <div
               key={`${logo.name}-${i}`}
-              className="w-40 h-24 lg:w-48 lg:h-28 bg-white rounded-2xl border border-white/10 shadow-lg flex items-center justify-center p-5 flex-shrink-0 grayscale hover:grayscale-0 transition-all duration-300 hover:shadow-amber-500/20 hover:border-amber-400/40"
+              className="w-40 h-24 lg:w-48 lg:h-28 bg-white rounded-2xl border border-white/10 shadow-lg flex items-center justify-center p-5 flex-shrink-0 transition-all duration-300 hover:shadow-amber-500/20 hover:border-amber-400/40"
             >
               <div className="relative w-full h-full">
                 <Image src={logo.src} alt={logo.name} fill className="object-contain" />
