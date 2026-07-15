@@ -1,5 +1,4 @@
 "use client";
-
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, BookOpenCheck, Award, ShieldCheck } from "lucide-react";
