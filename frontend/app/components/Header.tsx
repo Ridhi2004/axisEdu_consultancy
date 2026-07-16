@@ -285,11 +285,11 @@ export default function Header() {
 
               {/* CTA Button */}
               <Link
-                href="/contact"
+                href="/registration"
                 onClick={closeAllMenus}
                 className="hidden lg:inline-flex items-center gap-1.5 bg-amber-600 hover:bg-amber-700 text-white text-sm font-semibold px-5 py-2.5 rounded-full transition-all duration-300 shadow-sm hover:shadow-md active:scale-[0.98]"
               >
-                Free Consultation
+               Register Now
                 <ArrowRight size={15} />
               </Link>
 
@@ -377,11 +377,11 @@ export default function Header() {
 
               {/* Mobile CTA */}
               <Link
-                href="/contact"
+                href="/registration"
                 onClick={closeAllMenus}
                 className="mt-3 flex items-center justify-center gap-1.5 bg-amber-600 hover:bg-amber-700 text-white text-sm font-semibold px-5 py-3 rounded-full transition-colors"
               >
-                Free Consultation
+                Register Now
                 <ArrowRight size={15} />
               </Link>
 

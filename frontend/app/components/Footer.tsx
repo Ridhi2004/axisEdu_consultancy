@@ -61,13 +61,11 @@ export default function Footer() {
               Quick Links
             </h3>
             <ul className="mt-4 space-y-2.5 text-sm">
-              <li><Link href="/" className="hover:text-amber-500 transition-colors">Home</Link></li>
-              <li><Link href="/introductionn" className="hover:text-amber-500 transition-colors">About Us</Link></li>
-              <li><Link href="/programs/ielts" className="hover:text-amber-500 transition-colors">IELTS</Link></li>
+            
+              <li><Link href="/about#introduction" className="hover:text-amber-500 transition-colors">About Us</Link></li>
+              <li><Link href="/programs/Ielts" className="hover:text-amber-500 transition-colors">IELTS</Link></li>
               <li><Link href="/programs/english" className="hover:text-amber-500 transition-colors">English Language</Link></li>
               <li><Link href="/gallery" className="hover:text-amber-500 transition-colors">Gallery</Link></li>
-              <li><Link href="/testimonials" className="hover:text-amber-500 transition-colors">Testimonials</Link></li>
-              <li><Link href="/faq" className="hover:text-amber-500 transition-colors">FAQ</Link></li>
               <li><Link href="/contact" className="hover:text-amber-500 transition-colors">Contact</Link></li>
             </ul>
           </div>
@@ -78,12 +76,12 @@ export default function Footer() {
               Study Destinations
             </h3>
             <ul className="mt-4 space-y-2.5 text-sm">
-              <li><Link href="https://axisedu.com.np/australia12" className="hover:text-amber-500 transition-colors">Australia</Link></li>
-              <li><Link href="https://axisedu.com.np/usa121212" className="hover:text-amber-500 transition-colors">USA</Link></li>
-              <li><Link href="https://axisedu.com.np/uksdf" className="hover:text-amber-500 transition-colors">UK</Link></li>
-              <li><Link href="https://axisedu.com.np/finlandsdf" className="hover:text-amber-500 transition-colors">Finland</Link></li>
-              <li><Link href="https://axisedu.com.np/indiaasd" className="hover:text-amber-500 transition-colors">India</Link></li>
-              <li><Link href="https://axisedu.com.np/newzealand" className="hover:text-amber-500 transition-colors">New Zealand</Link></li>
+              <li><Link href="/abroad/australia" className="hover:text-amber-500 transition-colors">Australia</Link></li>
+              <li><Link href="/abroad/usa" className="hover:text-amber-500 transition-colors">USA</Link></li>
+              <li><Link href="/abroad/uk" className="hover:text-amber-500 transition-colors">UK</Link></li>
+              <li><Link href="/abroad/finland" className="hover:text-amber-500 transition-colors">Finland</Link></li>
+              <li><Link href="/abroad/india" className="hover:text-amber-500 transition-colors">India</Link></li>
+              <li><Link href="/abroad/new-zealand" className="hover:text-amber-500 transition-colors">New Zealand</Link></li>
             </ul>
           </div>
 
@@ -119,7 +117,7 @@ export default function Footer() {
             </h3>
             <div className="mt-4 rounded-xl overflow-hidden border border-white/10">
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1766.5!2d85.3240!3d27.7172!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjfCsDQzJzAxLjkiTiA4NcKwMTknMjYuNCJF!5e0!3m2!1sen!2snp!4v0000000000000"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3532.4506441190706!2d85.32005567525366!3d27.70336917618481!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39eb19a842049ef5%3A0x21d314401e6bc5f7!2sAxis%20International%20Education%20Pvt.%20Ltd!5e0!3m2!1sen!2snp!4v1784176605478!5m2!1sen!2snp"
                 width="100%"
                 height="180"
                 style={{ border: 0 }}

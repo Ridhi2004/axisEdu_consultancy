@@ -84,7 +84,7 @@ export default function Introduction() {
             </div>
 
             <Link
-              href="/introductionn"
+              href="/about#introduction"
               className="mt-8 inline-flex items-center gap-2 bg-[#0B2545] hover:bg-[#0d2f57] text-white font-semibold text-sm px-6 py-3.5 rounded-full transition-all duration-300 shadow-sm hover:shadow-md active:scale-[0.98] group"
             >
               Read More

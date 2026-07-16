@@ -72,7 +72,7 @@ export default function LatestPostsAndFacebook() {
             
             {/* Single Read More button at the end */}
             <Link
-              href="/blog"
+              href="/latest"
               className="group block rounded-2xl border-2 border-dashed border-amber-400 bg-amber-50 hover:bg-amber-100 transition-all duration-300 p-6 text-center flex-shrink-0"
             >
               <span className="inline-flex items-center gap-2 text-amber-600 font-semibold text-base">

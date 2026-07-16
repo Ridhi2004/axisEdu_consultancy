@@ -165,19 +165,19 @@ export default function TestimonialsAndDirector() {
               <div className="relative mt-8 pt-6 border-t border-white/10 flex items-center gap-5">
                 <div className="relative w-24 h-24 lg:w-28 lg:h-28 rounded-xl overflow-hidden flex-shrink-0 ring-1 ring-white/15 shadow-lg">
                   <Image
-                    src="/images/director.jpg"
+                    src="/images/msgdirector.jpg"
                     alt="Director, Axis International Education"
                     fill
-                    className="object-cover"
+                    
                   />
                 </div>
                 <div>
                   <p className="text-slate-400 text-xs">Warm regards,</p>
                   <p className="font-serif italic text-white text-xl leading-tight mt-0.5">
-                    Director Name
+                    Mr. Sunil Rai
                   </p>
                   <p className="text-amber-400 text-xs font-medium mt-0.5">
-                    Founder &amp; Director
+                    (Managing Director)
                   </p>
                 </div>
               </div>

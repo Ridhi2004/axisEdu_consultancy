@@ -196,34 +196,7 @@ export default function Hero() {
                 </div>
               </motion.div>
 
-              {/* Floating card 2 */}
-              <motion.div
-                initial={{ opacity: 0, x: 30, y: -20 }}
-                animate={{ opacity: 1, x: 0, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.7 }}
-                whileHover={{
-                  scale: 1.05,
-                  y: -5,
-                  transition: { type: "spring", stiffness: 400 }
-                }}
-                className="absolute -top-5 -right-3 sm:-right-6 bg-white rounded-2xl shadow-xl px-4 py-3 flex items-center gap-2.5"
-              >
-                <div className="flex -space-x-2">
-                  {[1, 2, 3].map((i, index) => (
-                    <motion.div
-                      key={i}
-                      initial={{ opacity: 0, scale: 0 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ duration: 0.3, delay: 0.8 + (index * 0.1) }}
-                      whileHover={{ y: -3 }}
-                      className="w-7 h-7 rounded-full bg-[#0B2545] border-2 border-white flex items-center justify-center"
-                    >
-                      <Users size={12} className="text-white" />
-                    </motion.div>
-                  ))}
-                </div>
-                <p className="text-xs font-medium text-[#0B2545]">Join 500+ students</p>
-              </motion.div>
+            
             </div>
           </motion.div>
         </div>
