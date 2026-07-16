@@ -100,7 +100,7 @@ export default function Hero() {
                 whileTap={{ scale: 0.95 }}
               >
                 <Link
-                  href="/about"
+                  href="/about#introduction"
                   className="w-full sm:w-auto inline-flex items-center justify-center gap-2 text-white font-medium text-sm px-7 py-3.5 rounded-full border border-white/20 hover:bg-white/10 transition-all duration-300"
                 >
                   <PlayCircle size={17} />
