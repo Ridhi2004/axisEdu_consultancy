@@ -145,7 +145,7 @@ export default function TestimonialsAndDirector() {
                   &ldquo;Every student who walks through our doors carries a dream.&rdquo;
                 </p>
 
-                <p className="mt-5 text-[15px] text-slate-300 leading-relaxed">
+                <p className="mt-5 text-[15px] text-slate-300 leading-relaxed text-justify">
                   It is our responsibility to guide that dream with honesty, care, and
                   the right expertise. Since our founding, Axis International
                   Education has been committed to more than just processing
@@ -153,7 +153,7 @@ export default function TestimonialsAndDirector() {
                   work with, understanding their goals and helping them make informed
                   decisions about their future.
                 </p>
-                <p className="mt-4 text-[15px] text-slate-300 leading-relaxed">
+                <p className="mt-4 text-[15px] text-slate-300 leading-relaxed text-justify">
                   Our team&apos;s dedication and years of experience have helped
                   hundreds of students achieve their dream of studying abroad, and we
                   remain committed to upholding that same standard of trust and

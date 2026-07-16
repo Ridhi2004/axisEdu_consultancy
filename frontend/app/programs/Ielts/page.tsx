@@ -69,7 +69,7 @@ export default function IeltsPage() {
             <p className="text-amber-400/90 text-sm font-medium mb-2">
               International English Language Testing System
             </p>
-            <p className="text-white/80 text-base sm:text-lg">
+            <p className="text-white/80 text-base sm:text-lg text-justify">
               The IELTS score is required to apply to international colleges and universities
               if you are planning to study further at foreign educational institutions.
             </p>
@@ -86,7 +86,7 @@ export default function IeltsPage() {
               <h2 className="mt-3 text-2xl font-bold text-[#0B2545]">
                 Preparing You for Success
               </h2>
-              <p className="mt-5 text-slate-600 leading-relaxed">
+              <p className="mt-5 text-slate-600 leading-relaxed text-justify">
                 We conduct regular preparatory classes for our prospective IELTS candidates.
                 Our updated and well-trained instructors create ample opportunity to achieve
                 higher scores in IELTS. We have the latest teaching materials and methods to

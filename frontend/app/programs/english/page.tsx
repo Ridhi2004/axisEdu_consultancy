@@ -91,7 +91,7 @@ export default function EnglishLanguagePage() {
             <h1 className="mt-4 text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4">
               English Language
             </h1>
-            <p className="text-white/80 text-base sm:text-lg">
+            <p className="text-white/80 text-base sm:text-lg text-justify">
               A course to suit you — whether you want to study or live overseas, work, manage
               everyday situations, or prepare for preparatory classes. Our courses are divided
               into two categories to match your goals.
@@ -109,7 +109,7 @@ export default function EnglishLanguagePage() {
               <h2 className="mt-3 text-2xl font-bold text-[#0B2545]">
                 Built Around Four Core Skills
               </h2>
-              <p className="mt-5 text-slate-600 leading-relaxed">
+              <p className="mt-5 text-slate-600 leading-relaxed text-justify">
                 Our intensive English language courses come in different levels according to
                 your ability. Each level has a specific target to improve your English language
                 eligibility, developing your speaking, writing, reading, and listening skills
@@ -152,7 +152,7 @@ export default function EnglishLanguagePage() {
                   >
                     <h3 className="font-bold text-[#0B2545] text-lg">{course.name}</h3>
                     <p className="text-amber-600 text-xs font-medium mt-1">{course.tagline}</p>
-                    <p className="text-slate-600 text-sm leading-relaxed mt-3">
+                    <p className="text-slate-600 text-sm leading-relaxed mt-3 text-justify">
                       {course.description}
                     </p>
 

@@ -64,7 +64,7 @@ export default function LatestPostsAndFacebook() {
                 <h3 className="text-lg font-bold text-[#0B2545]">
                   {post.title}
                 </h3>
-                <p className="mt-2.5 text-sm text-slate-600 leading-relaxed">
+                <p className="mt-2.5 text-sm text-slate-600 leading-relaxed text-justify">
                   {post.excerpt}
                 </p>
               </div>

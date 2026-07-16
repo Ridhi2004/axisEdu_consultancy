@@ -47,13 +47,13 @@ export default function AbroadStudy() {
             </h2>
 
             <div className="mt-5 pl-5 border-l-4 border-amber-500/40 space-y-4">
-              <p className="text-slate-300 text-base leading-relaxed">
+              <p className="text-slate-300 text-base leading-relaxed text-justify">
                 Axis International Education is an organization for educational
                 opportunities and career development. We connect people worldwide
                 with learning opportunities and creative ideas from many other
                 countries around the world.
               </p>
-              <p className="text-slate-300 text-base leading-relaxed">
+              <p className="text-slate-300 text-base leading-relaxed test-justify">
                 We can be assisting to the willing students who are trying to study
                 abroad for variety of courses according to your need and
                 qualification. We can provide educational opportunity in the USA,

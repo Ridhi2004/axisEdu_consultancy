@@ -64,7 +64,7 @@ export default function Introduction() {
             </h2>
 
             <div className="mt-5 pl-5 border-l-4 border-amber-500/40 space-y-4">
-              <p className="text-slate-600 text-base leading-relaxed transition-all duration-500 hover:translate-x-2 ">
+              <p className="text-slate-600 text-base leading-relaxed transition-all duration-500 hover:translate-x-2 text-justify">
                 Axis International Education Pvt. Ltd. is an established educational
                 counseling center in Kathmandu. It was established with genuine motive
                 to assist the interested and aspiring students for quality education.
@@ -75,7 +75,7 @@ export default function Introduction() {
                 staffs have been renowned for their expertise and experiences.
               </p>
 
-              <p className="text-slate-600 text-base leading-relaxed transition-all duration-700 hover:translate-x-2">
+              <p className="text-slate-600 text-base leading-relaxed transition-all duration-700 hover:translate-x-2 text-justify">
                 Axis Int&apos;l Education is a strongly quality oriented multipurpose
                 educational institution in Nepal. We have been providing noble
                 education, guidelines and supportive skills to several students in

@@ -136,7 +136,7 @@ export default function AboutPage() {
           >
             <SectionBadge icon={Info} label="Introduction" />
             <h2 className="mt-3 text-2xl font-bold text-[#0B2545]">Who We Are</h2>
-            <div className="mt-5 space-y-4 text-slate-600 leading-relaxed">
+            <div className="mt-5 space-y-4 text-slate-600 leading-relaxed text-justify">
               <p>
                 Axis International Education Pvt. Ltd. is an established educational
                 counseling center in Kathmandu, founded with a genuine motive to assist
@@ -175,7 +175,7 @@ export default function AboutPage() {
           >
             <SectionBadge icon={Target} label="Objectives" />
             <h2 className="mt-3 text-2xl font-bold text-[#0B2545]">What We Set Out to Do</h2>
-            <div className="mt-5 space-y-4 text-slate-600 leading-relaxed">
+            <div className="mt-5 space-y-4 text-slate-600 leading-relaxed text-justify">
               <p>
                 We represent various international universities and colleges in the USA, UK,
                 and Australia, acting as a mediator so prospective students can earn
@@ -208,7 +208,7 @@ export default function AboutPage() {
             <h2 className="relative mt-3 text-2xl font-bold">
               Integrative, Skills-Oriented Education
             </h2>
-            <p className="relative mt-5 text-white/85 leading-relaxed max-w-3xl">
+            <p className="relative mt-5 text-white/85 leading-relaxed max-w-3xl text-justify">
               To become a provider of noble education for overcoming challenges, creating
               opportunities, and providing leadership to adjust to a modern and dynamic world.
               We aim to be the reliable platform that helps students access international
@@ -227,7 +227,7 @@ export default function AboutPage() {
             <h2 className="mt-3 text-2xl font-bold text-[#0B2545]">
               Guidance That Serves Your Career
             </h2>
-            <p className="mt-5 text-slate-600 leading-relaxed">
+            <p className="mt-5 text-slate-600 leading-relaxed text-justify">
               Our professional expertise, creativity, and smart guidance help you choose the
               right courses for your career. Axis offers you qualitative and affordable
               education for a better future — a little investment aimed at higher success. To

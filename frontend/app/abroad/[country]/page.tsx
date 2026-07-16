@@ -325,7 +325,7 @@ export default function CountryPage() {
               </h2>
 
               <div className="mt-5 grid sm:grid-cols-[1fr,220px] gap-6 items-start">
-                <p className="text-slate-600 leading-relaxed">{data.overview}</p>
+                <p className="text-slate-600 leading-relaxed text-justify">{data.overview}</p>
 
                 {/* Medium-sized supporting image */}
                 <div className="relative w-full sm:w-[220px] h-[160px] rounded-2xl overflow-hidden shadow-sm flex-shrink-0">
