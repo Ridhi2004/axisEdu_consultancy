@@ -123,13 +123,7 @@ export default function ProgramsPage() {
                   })}
                 </div>
 
-                <Link
-                  href={service.href}
-                  className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-amber-600 hover:text-amber-700 transition-colors group"
-                >
-                  Learn More
-                  <ArrowRight size={15} className="group-hover:translate-x-0.5 transition-transform" />
-                </Link>
+               
               </div>
             );
           })}
