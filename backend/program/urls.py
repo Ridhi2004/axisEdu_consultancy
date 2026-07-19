@@ -8,5 +8,11 @@ router.register("courses", CourseViewSet)
 router.register("course-fees", CourseFeeViewSet)
 
 urlpatterns = [
+    path("contact-us/", ContactUsView.as_view(), name="contact-us"),
+    path(
+        "online-registration/",
+        RegistrationView.as_view(),
+        name="online-registration",
+    ),
     path('',include(router.urls))
 ]

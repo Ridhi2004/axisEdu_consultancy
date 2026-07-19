@@ -56,16 +56,16 @@ class GlobalSearchAPIView(APIView):
             })
 
         # Testimonials
-        testimonials = Testionomial.objects.filter(
-            Q(name__icontains=query) |
-            Q(description__icontains=query)
-        )
+        # testimonials = Testionomial.objects.filter(
+        #     Q(name__icontains=query) |
+        #     Q(description__icontains=query)
+        # )
 
         # FAQs
-        faqs = Faq.objects.filter(
-            Q(title__icontains=query) |
-            Q(description__icontains=query)
-        )
+        # faqs = Faq.objects.filter(
+        #     Q(title__icontains=query) |
+        #     Q(description__icontains=query)
+        # )
 
         # Latest Posts
         latest_posts = LAtestPost.objects.filter(
@@ -74,9 +74,9 @@ class GlobalSearchAPIView(APIView):
         )
 
         data = {
-            "testimonials": TestionomialSerializer(testimonials, many=True).data,
-            "faqs": FaqSerializer(faqs, many=True).data,
+            # "testimonials": TestionomialSerializer(testimonials, many=True).data,
+            # "faqs": FaqSerializer(faqs, many=True).data,
             "latest_posts": LatestPostSerializer(latest_posts, many=True).data,
         }
-
+    
         return Response(data)
