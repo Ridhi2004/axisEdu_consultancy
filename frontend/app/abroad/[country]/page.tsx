@@ -15,7 +15,7 @@ import {
 import Link from "next/link";
 import Flag from 'react-flagkit';
 
-// Simple type definitions
+
 type University = {
   name: string;
   location: string;
@@ -59,7 +59,7 @@ type Requirements = {
 
 type CountryData = {
   name: string;
-  flagCode: string; // Changed from 'flag' to 'flagCode'
+  flagCode: string; 
   title: string;
   subtitle: string;
   image: string;
@@ -79,7 +79,7 @@ type CountryData = {
   scholarships?: Scholarships;
 };
 
-// Country-specific data with flag codes
+
 const countryData: Record<string, CountryData> = {
   australia: {
     name: "Australia",

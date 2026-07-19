@@ -134,10 +134,7 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="mt-12 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500">
           <p>© {new Date().getFullYear()} Axis International Education Pvt. Ltd. All rights reserved.</p>
-          <div className="flex items-center gap-5">
-            <Link href="/privacy-policy" className="hover:text-amber-500 transition-colors">Privacy Policy</Link>
-            <Link href="/terms" className="hover:text-amber-500 transition-colors">Terms of Service</Link>
-          </div>
+         
         </div>
       </div>
     </footer>
