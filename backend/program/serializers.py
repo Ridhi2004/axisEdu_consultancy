@@ -59,3 +59,6 @@ class RegistrationSerializer(serializers.Serializer):
             "Internet"
         ]
     )
+    captcha_token = serializers.CharField(write_only=True)
+
+    
