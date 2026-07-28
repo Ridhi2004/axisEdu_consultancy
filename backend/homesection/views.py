@@ -30,7 +30,7 @@ class TestonomialaViewSet(ModelViewSet):
 
 @extend_schema(tags=["Latest Post"])
 class LatestPostViewSet(ModelViewSet):
-    queryset=LAtestPost.objects.all()
+    queryset=LatestPost.objects.all()
     serializer_class=LatestPostSerializer
 
 
@@ -68,7 +68,7 @@ class GlobalSearchAPIView(APIView):
         # )
 
         # Latest Posts
-        latest_posts = LAtestPost.objects.filter(
+        latest_posts = LatestPost.objects.filter(
             Q(title__icontains=query) |
             Q(description__icontains=query)
         )
@@ -80,3 +80,27 @@ class GlobalSearchAPIView(APIView):
         }
     
         return Response(data)
+
+@extend_schema(tags=["Country"])
+class CountryViewSet(ModelViewSet):
+    queryset=Country.objects.all()
+    serializer_class=CountrySerializer
+
+@extend_schema(tags=["Abroad study"])
+class AbroadViewSet(ModelViewSet):
+    queryset = Abroad.objects.select_related(
+        "country"
+    ).prefetch_related(
+        "universities",
+        "visa_information",
+        "required_documents",
+    )
+
+    lookup_field = "country__code"
+    lookup_url_kwarg = "code"
+
+    def get_serializer_class(self):
+        if self.action == "list":
+            return AbroadListSerializer
+        return AbroadDetailSerializer
+

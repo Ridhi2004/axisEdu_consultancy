@@ -24,7 +24,7 @@ class Faq(models.Model):
     def __str__(self):
         return self.title
     
-class LAtestPost(models.Model):
+class LatestPost(models.Model):
     title=models.CharField(max_length=500,blank=True)
     description=models.TextField()
 
@@ -129,3 +129,4 @@ class RequiredDocument(models.Model):
 
     def __str__(self):
         return self.title
+    

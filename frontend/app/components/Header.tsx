@@ -1,19 +1,10 @@
 'use client';
 
 import { Menu, X, ChevronDown, ChevronUp, Phone, Mail, Search, ArrowRight } from "lucide-react";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import Flag from 'react-flagkit';
-
-const countries = [
-  { name: "Australia", href: "/abroad/australia", code: "AU" },
-  { name: "USA", href: "/abroad/usa", code: "US" },
-  { name: "UK", href: "/abroad/uk", code: "GB" },
-  { name: "Finland", href: "/abroad/finland", code: "FI" },
-  { name: "India", href: "/abroad/india", code: "IN" },
-  { name: "New Zealand", href: "/abroad/new-zealand", code: "NZ" },
-];
 
 const aboutLinks = [
   { name: "Introduction", href: "/about#introduction", desc: "Who we are" },
@@ -29,10 +20,36 @@ const programLinks = [
 ];
 
 const SCROLL_DELTA_THRESHOLD = 8;
-
 const ALWAYS_SHOW_BELOW = 80;
 
+// ---------------------------------------------------------------------------
+// Types — mirror the /api/v1/abroad/ LIST response (only countries that
+// actually have study-abroad content, unlike the raw /api/v1/country/ list)
+// ---------------------------------------------------------------------------
+
+interface CountrySummary {
+  id: number;
+  country: {
+    id: number;
+    name: string;
+    code: string; // e.g. "AU" — feeds both react-flagkit and the detail-page link
+    flag: string;
+  };
+  hero_title: string;
+  hero_image: string | null;
+}
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000";
+
+// Build the abroad-study detail link from the country CODE, not the name —
+// the backend detail endpoint looks up by code (e.g. /abroad/AU), not by a
+// readable slug like "australia".
+const countryHref = (code: string) => `/abroad/${code.toUpperCase()}`;
+
 export default function Header() {
+  const [countries, setCountries] = useState<CountrySummary[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [showNavbar, setShowNavbar] = useState(true);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -44,6 +61,45 @@ export default function Header() {
     abroadStudy: false,
   });
 
+  // Fetch countries that actually have Abroad study content from the backend
+  useEffect(() => {
+    const controller = new AbortController();
+
+    const fetchCountries = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        const res = await fetch(`${API_URL}/api/v1/abroad/`, {
+          signal: controller.signal,
+        });
+
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+
+        const data: CountrySummary[] = await res.json();
+
+        if (!Array.isArray(data)) {
+          throw new Error('Data is not an array');
+        }
+
+        setCountries(data);
+      } catch (err) {
+        if ((err as Error).name !== "AbortError") {
+          console.error('Error fetching countries:', err);
+          setError(err instanceof Error ? err.message : 'Failed to load countries');
+          setCountries([]);
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCountries();
+    return () => controller.abort();
+  }, []);
+
   const toggleMobileDropdown = (key: keyof typeof mobileDropdowns) => {
     setMobileDropdowns(prev => ({
       ...prev,
@@ -51,10 +107,8 @@ export default function Header() {
     }));
   };
 
-  
   useEffect(() => {
-    let lastY = window.scrollY;
-    let anchorY = window.scrollY; 
+    let anchorY = window.scrollY;
     let ticking = false;
 
     const update = () => {
@@ -68,18 +122,14 @@ export default function Header() {
         setShowNavbar(true);
         anchorY = currentY;
       } else if (delta > SCROLL_DELTA_THRESHOLD) {
-        // scrolled down enough to react
         setShowNavbar(false);
         setMobileMenuOpen(false);
         setSearchOpen(false);
         anchorY = currentY;
       } else if (delta < -SCROLL_DELTA_THRESHOLD) {
-        // scrolled up enough to react
         setShowNavbar(true);
         anchorY = currentY;
       }
-
-      lastY = currentY;
     };
 
     const onScroll = () => {
@@ -137,7 +187,6 @@ export default function Header() {
   };
 
   return (
-   
     <div
       className="sticky top-0 z-50 will-change-transform"
       style={{
@@ -233,18 +282,43 @@ export default function Header() {
                     Study Destinations
                   </p>
                   <div className="grid grid-cols-2 gap-1">
-                    {countries.map((c) => (
-                      <Link
-                        key={c.href}
-                        href={c.href}
-                        className="flex items-center gap-2.5 px-3 py-2.5 rounded-lg hover:bg-[#0B2545]/[0.04] transition-colors group/item"
-                      >
-                        <Flag country={c.code} size={24} />
-                        <span className="text-sm font-medium text-[#0B2545] group-hover/item:text-amber-600 transition-colors">
-                          {c.name}
-                        </span>
-                      </Link>
-                    ))}
+                    {loading ? (
+                      <p className="col-span-2 px-3 py-2 text-sm text-slate-400">
+                        Loading destinations...
+                      </p>
+                    ) : error ? (
+                      <p className="col-span-2 px-3 py-2 text-sm text-red-500">
+                        Error: {error}
+                      </p>
+                    ) : countries.length === 0 ? (
+                      <p className="col-span-2 px-3 py-2 text-sm text-slate-400">
+                        No destinations available
+                      </p>
+                    ) : (
+                      countries.map((item) => {
+                        const countryCode = item.country.code?.toUpperCase() || '';
+                        const isValidCode = /^[A-Z]{2}$/.test(countryCode);
+
+                        return (
+                          <Link
+                            key={item.id}
+                            href={countryHref(item.country.code)}
+                            className="flex items-center gap-2.5 px-3 py-2.5 rounded-lg hover:bg-[#0B2545]/[0.04] transition-colors group/item"
+                          >
+                            {isValidCode ? (
+                              <Flag country={countryCode} size={24} />
+                            ) : (
+                              <div className="w-6 h-6 bg-slate-200 rounded flex items-center justify-center text-xs text-slate-500 font-medium">
+                                {item.country.name.charAt(0)}
+                              </div>
+                            )}
+                            <span className="text-sm font-medium text-[#0B2545] group-hover/item:text-amber-600 transition-colors">
+                              {item.country.name}
+                            </span>
+                          </Link>
+                        );
+                      })
+                    )}
                   </div>
                 </div>
               </NavDropdown>
@@ -289,7 +363,7 @@ export default function Header() {
                 onClick={closeAllMenus}
                 className="hidden lg:inline-flex items-center gap-1.5 bg-amber-600 hover:bg-amber-700 text-white text-sm font-semibold px-5 py-2.5 rounded-full transition-all duration-300 shadow-sm hover:shadow-md active:scale-[0.98]"
               >
-               Register Now
+                Register Now
                 <ArrowRight size={15} />
               </Link>
 
@@ -360,17 +434,36 @@ export default function Header() {
                 open={mobileDropdowns.abroadStudy}
                 onToggle={() => toggleMobileDropdown('abroadStudy')}
               >
-                {countries.map((c) => (
-                  <Link
-                    key={c.href}
-                    href={c.href}
-                    onClick={closeAllMenus}
-                    className="flex items-center gap-2 py-2.5 px-3 text-sm text-slate-600 hover:bg-slate-50 hover:text-[#0B2545] rounded-md transition-colors"
-                  >
-                    <Flag country={c.code} size={20} />
-                    {c.name}
-                  </Link>
-                ))}
+                {loading ? (
+                  <p className="px-3 py-2 text-sm text-slate-400">Loading...</p>
+                ) : error ? (
+                  <p className="px-3 py-2 text-sm text-red-500">Error: {error}</p>
+                ) : countries.length === 0 ? (
+                  <p className="px-3 py-2 text-sm text-slate-400">No destinations available</p>
+                ) : (
+                  countries.map((item) => {
+                    const countryCode = item.country.code?.toUpperCase() || '';
+                    const isValidCode = /^[A-Z]{2}$/.test(countryCode);
+
+                    return (
+                      <Link
+                        key={item.id}
+                        href={countryHref(item.country.code)}
+                        onClick={closeAllMenus}
+                        className="flex items-center gap-2 py-2.5 px-3 text-sm text-slate-600 hover:bg-slate-50 hover:text-[#0B2545] rounded-md transition-colors"
+                      >
+                        {isValidCode ? (
+                          <Flag country={countryCode} size={20} />
+                        ) : (
+                          <div className="w-5 h-5 bg-slate-200 rounded flex items-center justify-center text-xs text-slate-500 font-medium">
+                            {item.country.name.charAt(0)}
+                          </div>
+                        )}
+                        <span>{item.country.name}</span>
+                      </Link>
+                    );
+                  })
+                )}
               </MobileDropdown>
 
               <MobileLink href="/contact" onClick={closeAllMenus} border={false}>Contact</MobileLink>
