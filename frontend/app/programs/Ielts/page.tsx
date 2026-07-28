@@ -1,6 +1,8 @@
+
 'use client';
 
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import {
   BookOpen,
   Headphones,
@@ -12,7 +14,22 @@ import {
   Wallet,
   ChevronRight,
   GraduationCap,
+  Loader2,
 } from "lucide-react";
+
+// Types
+interface IeltsData {
+  id: number;
+  title: string;
+  description: string;
+  reading: string;
+  writing: string;
+  listening: string;
+  speaking: string;
+  exam_fee: string;
+  fee_at_axis: string;
+  class_duration: string;
+}
 
 function SectionBadge({ icon: Icon, label }: { icon: React.ElementType; label: string }) {
   return (
@@ -23,26 +40,105 @@ function SectionBadge({ icon: Icon, label }: { icon: React.ElementType; label: s
   );
 }
 
-const examSections = [
-  { icon: Headphones, name: "Listening", duration: "30 minutes" },
-  { icon: BookOpen, name: "Reading", duration: "60 minutes" },
-  { icon: PenLine, name: "Writing", duration: "60 minutes" },
-  { icon: Mic, name: "Speaking", duration: "10 to 15 minutes" },
-];
-
 const quickFacts = [
   { label: "Full Score", value: "9 Bands" },
   { label: "Required Score", value: "5.5 (Undergraduate) / 6.0 (Graduate)" },
   { label: "Certificate Validity", value: "2 Years" },
 ];
 
-const fees = [
-  { label: "Exam Registration Fee", value: "NRs. 13,800/-" },
-  { label: "IELTS Preparation Fee at Axis", value: "NRs. 7,000/-" },
-  { label: "Class Duration", value: "36 Hours" },
-];
-
 export default function IeltsPage() {
+  const [ieltsData, setIeltsData] = useState<IeltsData | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchIeltsData = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/itels/`);
+        
+        if (!response.ok) {
+          throw new Error(`Failed to fetch data: ${response.status} ${response.statusText}`);
+        }
+        
+        const data = await response.json();
+        
+        // The API returns an array, so we take the first item
+        if (Array.isArray(data) && data.length > 0) {
+          setIeltsData(data[0]);
+        } else {
+          throw new Error("No IELTS data found");
+        }
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "An error occurred while fetching data");
+        console.error("Error fetching IELTS data:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchIeltsData();
+  }, []);
+
+  // Loading State
+  if (loading) {
+    return (
+      <div className="bg-slate-50 min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <Loader2 className="w-12 h-12 text-amber-600 animate-spin mx-auto" />
+          <p className="mt-4 text-slate-600">Loading IELTS information...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Error State
+  if (error) {
+    return (
+      <div className="bg-slate-50 min-h-screen flex items-center justify-center">
+        <div className="text-center max-w-md mx-auto p-8 bg-white rounded-2xl shadow-sm border border-slate-200">
+          <div className="text-red-500 text-5xl mb-4">⚠️</div>
+          <h3 className="text-xl font-bold text-slate-800 mb-2">Unable to Load Data</h3>
+          <p className="text-slate-600 mb-4">{error}</p>
+          <button
+            onClick={() => window.location.reload()}
+            className="bg-amber-600 text-white px-6 py-2 rounded-lg hover:bg-amber-700 transition-colors"
+          >
+            Try Again
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // No Data State
+  if (!ieltsData) {
+    return (
+      <div className="bg-slate-50 min-h-screen flex items-center justify-center">
+        <div className="text-center max-w-md mx-auto p-8 bg-white rounded-2xl shadow-sm border border-slate-200">
+          <div className="text-amber-500 text-5xl mb-4">📚</div>
+          <h3 className="text-xl font-bold text-slate-800 mb-2">No Data Available</h3>
+          <p className="text-slate-600">Please check back later for IELTS information.</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Prepare fees array from fetched data
+  const fees = [
+    { label: "Exam Registration Fee", value: ieltsData.exam_fee || "NRs. 13,800/-" },
+    { label: "IELTS Preparation Fee at Axis", value: ieltsData.fee_at_axis || "NRs. 7,000/-" },
+    { label: "Class Duration", value: ieltsData.class_duration || "36 Hours" },
+  ];
+
+  // Prepare exam sections with dynamic durations from API
+  const examSections = [
+    { icon: Headphones, name: "Listening", duration: ieltsData.listening || "30 minutes" },
+    { icon: BookOpen, name: "Reading", duration: ieltsData.reading || "60 minutes" },
+    { icon: PenLine, name: "Writing", duration: ieltsData.writing || "60 minutes" },
+    { icon: Mic, name: "Speaking", duration: ieltsData.speaking || "10 to 15 minutes" },
+  ];
+
   return (
     <div className="bg-slate-50 min-h-screen py-6 lg:py-14">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -51,7 +147,6 @@ export default function IeltsPage() {
           <Link href="/" className="hover:text-amber-600 transition-colors">
             Home
           </Link>
-        
           <ChevronRight size={14} />
           <span className="text-amber-600 font-medium">IELTS</span>
         </nav>
@@ -80,21 +175,15 @@ export default function IeltsPage() {
         {/* Main Content */}
         <div className="grid lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-8">
-            {/* Overview */}
+            {/* Title & Description Box - Using API data */}
             <div className="bg-white rounded-3xl p-6 lg:p-8 border border-slate-200 shadow-sm">
               <SectionBadge icon={GraduationCap} label="Overview" />
               <h2 className="mt-3 text-2xl font-bold text-[#0B2545]">
-                Preparing You for Success
+                {ieltsData.title || "Preparing You for Success"}
               </h2>
               <p className="mt-5 text-slate-600 leading-relaxed text-justify">
-                We conduct regular preparatory classes for our prospective IELTS candidates.
-                Our updated and well-trained instructors create ample opportunity to achieve
-                higher scores in IELTS. We have the latest teaching materials and methods to
-                help our students understand the exam, and we are happy to provide as much
-                resource as possible to accelerate the possibility of achieving high scores.
-                We conduct IELTS module tests on a weekly basis to build our students&apos;
-                confidence and provide feedback as soon as possible, with great support
-                throughout.
+                {ieltsData.description || 
+                  "We conduct regular preparatory classes for our prospective IELTS candidates. Our updated and well-trained instructors create ample opportunity to achieve higher scores in IELTS. We have the latest teaching materials and methods to help our students understand the exam, and we are happy to provide as much resource as possible to accelerate the possibility of achieving high scores. We conduct IELTS module tests on a weekly basis to build our students' confidence and provide feedback as soon as possible, with great support throughout."}
               </p>
             </div>
 
@@ -153,7 +242,7 @@ export default function IeltsPage() {
               </div>
             </div>
 
-            {/* Fees & Duration */}
+            {/* Fees & Duration - Using dynamic data */}
             <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm">
               <h3 className="font-bold text-[#0B2545] text-lg mb-5">Fees &amp; Class Duration</h3>
               <div className="space-y-4">
